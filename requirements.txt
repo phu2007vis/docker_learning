@@ -14,3 +14,4 @@ joblib
 types-PyYAML
 scipy
 fastapi
+-e .
