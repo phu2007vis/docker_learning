@@ -6,8 +6,7 @@ from pathlib import Path
 class DataIngestionConfig:
     root_dir : Path
     source_URL: str
-    local_data_file: Path
-    unzip_dir: Path
+    data_dir_name: str
     
 @dataclass(frozen=True)
 class PrepareBaseModelConfig:

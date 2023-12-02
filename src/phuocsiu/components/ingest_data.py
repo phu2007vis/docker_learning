@@ -19,8 +19,9 @@ class DataIngestion:
 
         try: 
             dataset_url = self.config.source_URL
-            zip_download_dir = self.config.local_data_file
-            os.makedirs("artifacts/data_ingestion", exist_ok=True)
+            zip_download_dir = os.path.join(self.config.root_dir,self.config.data_dir_name+".zip")
+
+            os.makedirs(self.config.root_dir, exist_ok=True)
             logger.info(f"Downloading data from {dataset_url} into file {zip_download_dir}")
 
             file_id = dataset_url.split("/")[-2]
@@ -40,7 +41,12 @@ class DataIngestion:
         Extracts the zip file into the data directory
         Function returns None
         """
-        unzip_path = self.config.unzip_dir
+        unzip_path = os.path.join(self.config.root_dir,self.config.data_dir_name)
+        zip_file_path =os.path.join(self.config.root_dir,"data.zip")
         os.makedirs(unzip_path, exist_ok=True)
-        with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref:
+
+        with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
             zip_ref.extractall(unzip_path)
+
+        if os.path.exists(zip_file_path):
+            os.remove(zip_file_path)
