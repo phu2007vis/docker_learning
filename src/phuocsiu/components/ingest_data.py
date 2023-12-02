@@ -4,7 +4,7 @@ import gdown
 from phuocsiu import logger
 from phuocsiu.utils.common import get_size
 from phuocsiu.entity.config_entity import (DataIngestionConfig)
-from phuocsiu.config.configuration import ConfigManager
+
 
 
 class DataIngestion:
@@ -42,7 +42,7 @@ class DataIngestion:
         Function returns None
         """
         unzip_path = os.path.join(self.config.root_dir,self.config.data_dir_name)
-        zip_file_path =os.path.join(self.config.root_dir,"data.zip")
+        zip_file_path =os.path.join(self.config.root_dir,self.config.data_dir_name+".zip")
         os.makedirs(unzip_path, exist_ok=True)
 
         with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
