@@ -1,6 +1,6 @@
 from phuocsiu.constants import *
 import os
-from phuocsiu.entity.config_entity import DataIngestionConfig
+from phuocsiu.entity.config_entity import *
 from phuocsiu.utils.common import create_directories,read_yaml
 
 
@@ -28,4 +28,19 @@ class ConfigManager:
         )
 
         return data_ingestion_config
+    def get_traning_config(self) -> TrainingConfig:
+        config = self.config.train_config
+        training_config = TrainingConfig(
+            data_file=config.data_file,
+            valid_pecent=config.valid_pecent
+        )
+        return training_config
+    
+    def get_model_config(self) -> ModelConfig:
+        
+        config = self.config.model_config
+
+        return ModelConfig(
+            n_estimators=config.n_estimators
+        )
 

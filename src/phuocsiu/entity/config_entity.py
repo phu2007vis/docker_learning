@@ -12,6 +12,11 @@ class DataIngestionConfig:
 class TrainingConfig:
     data_file: str
     valid_pecent: float
+@dataclass
+class ModelConfig:
+    n_estimators: int
+    
+
 
 
 

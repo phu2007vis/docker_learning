@@ -7,10 +7,16 @@ data_ingestion:
 
 train_config:
   data_file: artifacts\data_ingestion\data22\ddata.csv
+  type_sep: ","
   valid_pecent: 0.2
 
 test:
   data_file: 
-  
+
+model_config:
+  n_estimators: 100
+
+
+
 
 

@@ -5,8 +5,7 @@ from phuocsiu import logger
 from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
-
-
+import pandas as pd
 
 
 @ensure_annotations
@@ -49,6 +48,10 @@ def create_directories(path_to_directories: list, verbose=True):
             logger.info(f"created directory at: {path}")
 
 
-  
+@ensure_annotations
+def preproces_df(df : pd.DataFrame) -> pd.DataFrame:
+
+    return df 
+
 
 
