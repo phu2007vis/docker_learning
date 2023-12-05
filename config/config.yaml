@@ -6,16 +6,19 @@ data_ingestion:
   data_dir_name: data22
 
 train_config:
-  data_file: artifacts\data_ingestion\data22\ddata.csv
-  type_sep: ","
+  train_data: artifacts\data_ingestion\data22\ddata.csv
+  test_data: artifacts\data_ingestion\data22\ddata.csv
+  sep: ";"
   valid_pecent: 0.2
-
-test:
-  data_file: 
-
+  
 model_config:
   n_estimators: 100
+  model_save: artifacts\models\model.pkl
 
+mlflow:
+  MLFLOW_TRACKING_URI: https://dagshub.com/Phuocphenikaa/mlflow-repo.mlflow 
+  MLFLOW_TRACKING_USERNAME: Phuocphenikaa
+  MLFLOW_TRACKING_PASSWORD: 0745776f6660d4ffc979b4764460215371d8e8c9   
 
 
 

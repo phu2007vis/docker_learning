@@ -2,7 +2,7 @@ from phuocsiu.constants import *
 import os
 from phuocsiu.entity.config_entity import *
 from phuocsiu.utils.common import create_directories,read_yaml
-
+from sklearn.ensemble import RandomForestClassifier
 
 class ConfigManager:
     def __init__(
@@ -28,19 +28,31 @@ class ConfigManager:
         )
 
         return data_ingestion_config
-    def get_traning_config(self) -> TrainingConfig:
+    def get_data_config(self) -> DataConfig:
         config = self.config.train_config
-        training_config = TrainingConfig(
-            data_file=config.data_file,
-            valid_pecent=config.valid_pecent
+        data_config = DataConfig(
+            train_data= config.train_data,
+            test_data = config.test_data,
+            valid_pecent=config.valid_pecent,
+            sep = config.sep
         )
-        return training_config
+        return data_config
     
     def get_model_config(self) -> ModelConfig:
         
         config = self.config.model_config
 
         return ModelConfig(
-            n_estimators=config.n_estimators
+            n_estimators=self.params.n_estimators,
+            model =  RandomForestClassifier(n_estimators=config.n_estimators),
+            model_save= Path(config.model_save)
         )
 
+    def get_mlflow_config(self) -> MflowConfig:
+        
+        config = self.config.mlflow
+        return MflowConfig(
+            MLFLOW_TRACKING_PASSWORD= config.MLFLOW_TRACKING_PASSWORD,
+            MLFLOW_TRACKING_URI= config.MLFLOW_TRACKING_URI,
+            MLFLOW_TRACKING_USERNAME= config.MLFLOW_TRACKING_USERNAME
+        )

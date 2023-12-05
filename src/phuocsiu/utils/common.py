@@ -6,6 +6,7 @@ from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 
 @ensure_annotations
@@ -49,9 +50,43 @@ def create_directories(path_to_directories: list, verbose=True):
 
 
 @ensure_annotations
-def preproces_df(df : pd.DataFrame) -> pd.DataFrame:
+def split_train_test_csv(csv_path : Path,save_dir) :
 
-    return df 
+    if save_dir:
+        pass
+    else:
+        pass
+    
+
+@ensure_annotations
+def preprocessing(df :  pd.DataFrame,split_precent :float = 0.2) :
+
+    df_clean_na =df.dropna()
+    x,y = df_clean_na.iloc[:,0:-1].values,df_clean_na.iloc[:,-1].values
+    x_min = x.min(axis=0)
+    x_max = x.max(axis=0)
+    x = (x-x_min)/(x_max-x_min)
+
+    if split_precent == 0:
+        return x,None,y,None
+    x_train,x_test,y_train, y_test = train_test_split(x,y,test_size=split_precent)
+    
+    return x_train,x_test,y_train,y_test
 
 
+@ensure_annotations
+def preprocessing2(path: Path,split_precent :float = 0.0,sep = ";") :
+
+    df = pd.read_csv(path,sep = sep)
+    df_clean_na =df.dropna()
+    x,y = df_clean_na.iloc[:,0:-1].values,df_clean_na.iloc[:,-1].values
+    x_min = x.min(axis=0)
+    x_max = x.max(axis=0)
+    x = (x-x_min)/(x_max-x_min)
+
+    if split_precent == 0:
+        return x,None,y,None
+    x_train,x_test,y_train, y_test = train_test_split(x,y,test_size=split_precent)
+    
+    return x_train,x_test,y_train,y_test
 
