@@ -3,8 +3,7 @@ import zipfile
 import gdown
 from phuocsiu import logger
 from phuocsiu.entity.config_entity import (DataIngestionConfig)
-
-
+from phuocsiu.config.configuration import ConfigManager
 
 class DataIngestion:
     def __init__(self, config: DataIngestionConfig):
@@ -49,3 +48,18 @@ class DataIngestion:
 
         if os.path.exists(zip_file_path):
             os.remove(zip_file_path)
+
+if __name__ == "__main__":
+    try:
+        STAGE_NAME = "Start Valid"
+        logger.info("----------")
+        logger.info(STAGE_NAME)
+        config_manager =  ConfigManager()
+        data_config = config_manager.get_data_ingestion_config()
+        data_ingestor = DataIngestion(data_config)
+        data_ingestor.download_file()
+        data_ingestor.extract_zip_file()
+        logger.info(f"{STAGE_NAME} succed")
+    except Exception as e:
+        logger.exception(e)
+        raise e

@@ -1,0 +1,24 @@
+stages:
+
+  ingest_data:
+    cmd: python src\phuocsiu\pipeline\data_ingest_pipepline.py
+    deps:
+      - src\phuocsiu\pipeline\data_ingest_pipepline.py
+      - config\config.yaml
+    outs: 
+      - artifacts\data_ingestion
+  train:
+    cmd:  python src\phuocsiu\pipeline\train_pipepline.py
+    deps:
+      - src\phuocsiu\pipeline\train_pipepline.py
+      - config\config.yaml
+      - params.yaml
+    outs:
+      -  artifacts\models
+  valid:
+    cmd: python src\phuocsiu\pipeline\valid_pipeline.py
+    deps:
+      - src\phuocsiu\pipeline\valid_pipeline.py
+      - config\config.yaml
+      - params.yaml
+    

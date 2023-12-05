@@ -2,14 +2,11 @@ import os
 from box.exceptions import BoxValueError
 import yaml
 from phuocsiu import logger
-import json
-import joblib
 from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
-from typing import Any
-import base64
-
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 
 @ensure_annotations
@@ -53,86 +50,43 @@ def create_directories(path_to_directories: list, verbose=True):
 
 
 @ensure_annotations
-def save_json(path: Path, data: dict):
-    """save json data
+def split_train_test_csv(csv_path : Path,save_dir) :
 
-    Args:
-        path (Path): path to json file
-        data (dict): data to be saved in json file
-    """
-    with open(path, "w") as f:
-        json.dump(data, f, indent=4)
+    if save_dir:
+        pass
+    else:
+        pass
+    
 
-    logger.info(f"json file saved at: {path}")
+@ensure_annotations
+def preprocessing(df :  pd.DataFrame,split_precent :float = 0.2) :
 
+    df_clean_na =df.dropna()
+    x,y = df_clean_na.iloc[:,0:-1].values,df_clean_na.iloc[:,-1].values
+    x_min = x.min(axis=0)
+    x_max = x.max(axis=0)
+    x = (x-x_min)/(x_max-x_min)
 
+    if split_precent == 0:
+        return x,None,y,None
+    x_train,x_test,y_train, y_test = train_test_split(x,y,test_size=split_precent)
+    
+    return x_train,x_test,y_train,y_test
 
 
 @ensure_annotations
-def load_json(path: Path) -> ConfigBox:
-    """load json files data
+def preprocessing2(path: Path,split_precent :float = 0.0,sep = ";") :
 
-    Args:
-        path (Path): path to json file
+    df = pd.read_csv(path,sep = sep)
+    df_clean_na =df.dropna()
+    x,y = df_clean_na.iloc[:,0:-1].values,df_clean_na.iloc[:,-1].values
+    x_min = x.min(axis=0)
+    x_max = x.max(axis=0)
+    x = (x-x_min)/(x_max-x_min)
 
-    Returns:
-        ConfigBox: data as class attributes instead of dict
-    """
-    with open(path) as f:
-        content = json.load(f)
-
-    logger.info(f"json file loaded succesfully from: {path}")
-    return ConfigBox(content)
-
-
-@ensure_annotations
-def save_bin(data: Any, path: Path):
-    """save binary file
-
-    Args:
-        data (Any): data to be saved as binary
-        path (Path): path to binary file
-    """
-    joblib.dump(value=data, filename=path)
-    logger.info(f"binary file saved at: {path}")
-
-
-@ensure_annotations
-def load_bin(path: Path) -> Any:
-    """load binary data
-
-    Args:
-        path (Path): path to binary file
-
-    Returns:
-        Any: object stored in the file
-    """
-    data = joblib.load(path)
-    logger.info(f"binary file loaded from: {path}")
-    return data
-
-@ensure_annotations
-def get_size(path: Path) -> str:
-    """get size in KB
-
-    Args:
-        path (Path): path of the file
-
-    Returns:
-        str: size in KB
-    """
-    size_in_kb = round(os.path.getsize(path)/1024)
-    return f"~ {size_in_kb} KB"
-
-
-def decodeImage(imgstring, fileName):
-    imgdata = base64.b64decode(imgstring)
-    with open(fileName, 'wb') as f:
-        f.write(imgdata)
-        f.close()
-
-
-def encodeImageIntoBase64(croppedImagePath):
-    with open(croppedImagePath, "rb") as f:
-        return base64.b64encode(f.read())
+    if split_precent == 0:
+        return x,None,y,None
+    x_train,x_test,y_train, y_test = train_test_split(x,y,test_size=split_precent)
+    
+    return x_train,x_test,y_train,y_test
 
