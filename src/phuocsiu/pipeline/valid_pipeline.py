@@ -3,7 +3,7 @@ from phuocsiu.entity.config_entity import *
 import mlflow
 from mlflow.models import infer_signature
 import os
-from sklearn.metrics import accuracy_score, recall_score, f1_score
+from sklearn.metrics import accuracy_score, recall_score, f1_score, precision_score
 from phuocsiu.utils.common import preprocessing2
 import pickle
 from phuocsiu import logger
@@ -59,7 +59,6 @@ if __name__ == "__main__":
         logger.info("----------")
         logger.info(STAGE_NAME)
         mger = ConfigManager()
-        train_config = mger.get_data_config()
         validator = Validate(mger)
         validator.validate()
         logger.info(f"{STAGE_NAME} succed")

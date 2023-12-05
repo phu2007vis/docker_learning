@@ -55,7 +55,7 @@ if __name__ == "__main__":
         logger.info("----------")
         logger.info(STAGE_NAME)
         config_manager =  ConfigManager()
-        data_config = config_manager.get_data_config()
+        data_config = config_manager.get_data_ingestion_config()
         data_ingestor = DataIngestion(data_config)
         data_ingestor.download_file()
         data_ingestor.extract_zip_file()
