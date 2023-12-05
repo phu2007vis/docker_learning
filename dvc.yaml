@@ -8,9 +8,9 @@ stages:
     outs: 
       - artifacts\data_ingestion
   train:
-    cmd:  python src\phuocsiu\pipeline\train_pipepline.py
+    cmd:  python src\phuocsiu\pipeline\train_pipeline.py
     deps:
-      - src\phuocsiu\pipeline\train_pipepline.py
+      - src\phuocsiu\pipeline\train_pipeline.py
       - config\config.yaml
       - params.yaml
     outs:
